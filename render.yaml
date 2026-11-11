@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: hongcheon-119-ansimcall
+    runtime: python
+    plan: 0.5c-512mb
+    region: singapore
+    buildCommand: python -m py_compile server.py
+    startCommand: python server.py
+    healthCheckPath: /healthz
+    autoDeployTrigger: 'off'
+    disk:
+      name: statistics
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: BIND_HOST
+        value: 0.0.0.0
+      - key: COUNTER_DB
+        value: /var/data/stats.sqlite3
+      - key: PYTHONUNBUFFERED
+        value: '1'
+      - key: ADMIN_TOKEN
+        generateValue: true
